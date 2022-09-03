@@ -1,4 +1,4 @@
-using Application;
+
 using Core.CrossCuttingConcerns.Exceptions;
 using Persistence;
 
@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddPersistenceServices(builder.Configuration);
-builder.Services.AddApplicationService();
+//builder.Services.AddApplicationService();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -25,10 +25,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-if (app.Environment.IsProduction())
-{
-    app.ConfigureCustomExceptionMiddleware();
-}
+
+//if (app.Environment.IsProduction())
+//app.ConfigureCustomExceptionMiddleware();
+
 
 app.UseAuthorization();
 
