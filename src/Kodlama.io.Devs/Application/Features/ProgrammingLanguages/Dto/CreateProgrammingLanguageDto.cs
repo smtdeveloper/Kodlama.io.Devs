@@ -8,6 +8,7 @@ namespace Application.Features.ProgrammingLanguage.Dto
 {
     public class CreateProgrammingLanguageDto
     {
-
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

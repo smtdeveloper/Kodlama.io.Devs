@@ -38,7 +38,7 @@ namespace Persistence.Contexts
 
 
 
-            ProgrammingLanguage[] ProgrammingLanguageEntitySeeds = { new(1, "C#"), new(2, "Java") };
+            ProgrammingLanguage[] ProgrammingLanguageEntitySeeds = { new(1, "C#",true), new(2, "Java", true) };
             modelBuilder.Entity<ProgrammingLanguage>().HasData(ProgrammingLanguageEntitySeeds);
 
 
