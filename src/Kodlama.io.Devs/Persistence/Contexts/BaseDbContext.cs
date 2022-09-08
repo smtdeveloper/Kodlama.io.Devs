@@ -13,6 +13,7 @@ namespace Persistence.Contexts
     {
         protected IConfiguration Configuration { get; set; }
         public DbSet<ProgrammingLanguage>  programmingLanguages { get; set; }
+        public DbSet<Technology>  Technologies { get; set; }
 
 
         public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration) : base(dbContextOptions)
@@ -34,6 +35,20 @@ namespace Persistence.Contexts
                 a.ToTable("ProgrammingLanguages").HasKey(k => k.Id);
                 a.Property(p => p.Id).HasColumnName("Id");
                 a.Property(p => p.Name).HasColumnName("Name");
+                a.Property(p => p.IsActive).HasColumnName("IsActive");
+                a.HasMany(p => p.Technologies);
+
+            });
+
+            modelBuilder.Entity<Technology>(a =>
+            {
+                a.ToTable("Technology").HasKey(k => k.Id);
+                a.Property(p => p.Id).HasColumnName("Id");
+                a.Property(p => p.Name).HasColumnName("Name");
+                a.Property(p => p.ProgrammingLanguageId).HasColumnName("ProgrammingLanguageId");
+                a.Property(p => p.IsActive).HasColumnName("IsActive");
+                a.HasOne(p => p.ProgrammingLanguage);
+
             });
 
 
@@ -41,6 +56,8 @@ namespace Persistence.Contexts
             ProgrammingLanguage[] ProgrammingLanguageEntitySeeds = { new(1, "C#",true), new(2, "Java", true) };
             modelBuilder.Entity<ProgrammingLanguage>().HasData(ProgrammingLanguageEntitySeeds);
 
+            Technology[] technologies = { new(1, 1, ".NET", true), new(2, 2, "Technology", true), new(3, 1, "MVC", true) };
+            modelBuilder.Entity<Technology>().HasData(technologies);
 
         }
     }

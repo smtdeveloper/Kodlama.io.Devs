@@ -17,6 +17,7 @@ public static class PersistenceServiceRegistration
                 configuration.GetConnectionString("KodlamaDevsConnectionString")));
 
         services.AddScoped<IProgrammingLanguageRepository, ProgrammingLanguageRepository>();
+        services.AddScoped<ITechnologyRepository, TechnologyRepository>();
         
         return services;
     }
