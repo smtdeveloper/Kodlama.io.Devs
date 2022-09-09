@@ -11,7 +11,7 @@ namespace Domain.Entities
     {
         public int ProgrammingLanguageId { get; set; }
         public string Name { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
         public virtual ProgrammingLanguage? ProgrammingLanguage { get; set; }
 
         public Technology()

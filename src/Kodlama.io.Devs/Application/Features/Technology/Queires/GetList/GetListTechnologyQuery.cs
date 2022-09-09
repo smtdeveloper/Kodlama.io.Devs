@@ -31,10 +31,10 @@ namespace Application.Features.Technology.Queires.GetList
 
         public async Task<GetListTechnologyModel> Handle(GetListTechnologyQuery request, CancellationToken cancellationToken)
         {
-          IPaginate<Domain.Entities.Technology> technologies = await  _technologyRepository.GetListAsync
-                (include: t => t.Include(c => c.ProgrammingLanguage), 
-                index: request.PageRequest.Page, 
-                size: request.PageRequest.PageSize);
+            IPaginate<Domain.Entities.Technology> technologies = await _technologyRepository.GetListAsync
+                   (a => a.IsActive == true, include: t => t.Include(c => c.ProgrammingLanguage),
+                  index: request.PageRequest.Page,
+                  size: request.PageRequest.PageSize);
 
             var mappedTechnologyModel = _mapper.Map<GetListTechnologyModel>(technologies);
             return mappedTechnologyModel;

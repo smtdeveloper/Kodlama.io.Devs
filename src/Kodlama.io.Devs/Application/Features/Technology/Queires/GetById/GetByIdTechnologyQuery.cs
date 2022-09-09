@@ -31,7 +31,7 @@ namespace Application.Features.Technology.Queires.GetById
             {
                 var mappedTechnology = _mapper.Map<Domain.Entities.Technology>(request);
                 IPaginate<Domain.Entities.Technology> technology = await _technologyRepository.GetListAsync(
-                    p => p.Id == request.Id,
+                    p => p.Id == request.Id & p.IsActive == true,
                     include: p => p.Include(c => c.ProgrammingLanguage)
                 );
 

@@ -1,4 +1,7 @@
-﻿using Application.Features.Technology.Queires.GetById;
+﻿using Application.Features.Technology.Commands.Create;
+using Application.Features.Technology.Commands.DeleteTechnology;
+using Application.Features.Technology.Commands.UpdateTechnology;
+using Application.Features.Technology.Queires.GetById;
 using Application.Features.Technology.Queires.GetList;
 using Core.Application.Requests;
 using Microsoft.AspNetCore.Http;
@@ -11,18 +14,40 @@ namespace WebAPI.Controllers
     public class TechnologyController : BaseController
     {
         [HttpGet]
-        public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
+        public async Task<IActionResult> GetListTechnology([FromQuery] PageRequest pageRequest)
         {
             GetListTechnologyQuery technologyQuery = new() { PageRequest = pageRequest };
             var result = await Mediator.Send(technologyQuery);
-            return Ok(result);  
+            return Ok(result);
         }
 
         [HttpGet("{Id}")]
-        public async Task<IActionResult> GetById([FromRoute] GetByIdTechnologyQuery getByIdTechnologyQuery )
+        public async Task<IActionResult> GetByIdTechnology([FromRoute] GetByIdTechnologyQuery getByIdTechnologyQuery)
         {
-           var result = await Mediator.Send(getByIdTechnologyQuery);
-           return Ok(result);
+            var result = await Mediator.Send(getByIdTechnologyQuery);
+            return Ok(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTechnology([FromBody] CreateTechnologyCommand createTechnologyCommand)
+        {
+            var result = await Mediator.Send(createTechnologyCommand);
+            return Created("", result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateTechnology([FromBody] UpdateTechnologyCommand updateTechnologyCommand)
+        {
+            var result = await Mediator.Send(updateTechnologyCommand);
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteTechnology([FromQuery] DeleteTechnologyCommand deleteTechnologyCommand)
+        {
+            var result = await Mediator.Send(deleteTechnologyCommand);
+            return Ok(result);
+        }
+
     }
 }

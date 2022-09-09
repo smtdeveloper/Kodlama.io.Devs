@@ -1,4 +1,7 @@
-﻿using Application.Features.Technology.Dto;
+﻿using Application.Features.Technology.Commands.Create;
+using Application.Features.Technology.Commands.DeleteTechnology;
+using Application.Features.Technology.Commands.UpdateTechnology;
+using Application.Features.Technology.Dto;
 using Application.Features.Technology.Model;
 using Application.Features.Technology.Queires.GetById;
 using AutoMapper;
@@ -15,18 +18,20 @@ namespace Application.Features.Technology.Profiles
     {
         public MappingProfiles()
         {
-            CreateMap<IPaginate<Domain.Entities.Technology>, GetListTechnologyModel>().ReverseMap();
+            CreateMap<Domain.Entities.Technology, CreateTechnologyCommand>().ReverseMap();
+            CreateMap<Domain.Entities.Technology, DeleteTechnologyCommand>().ReverseMap();
+            CreateMap<Domain.Entities.Technology, UpdateTechnologyCommand>().ReverseMap();
 
-            CreateMap<Domain.Entities.Technology, GetListTechnologyDto>()
-                .ForMember(t => t.ProgrammingLanguageName , opt => opt
-                .MapFrom(p => p.ProgrammingLanguage.Name)).ReverseMap();
-
+            CreateMap<Domain.Entities.Technology, CreateTechnologyDto>().ForMember(c => c.ProgrammingLanguageName, opt => opt.MapFrom(c => c.ProgrammingLanguage.Name)).ReverseMap();
+            CreateMap<Domain.Entities.Technology, DeleteTechnologyDto>().ForMember(c => c.ProgrammingLanguageName, opt => opt.MapFrom(c => c.ProgrammingLanguage.Name)).ReverseMap();
+            CreateMap<Domain.Entities.Technology, UpdateTechnologyDto>().ForMember(c => c.ProgrammingLanguageName, opt => opt.MapFrom(c => c.ProgrammingLanguage.Name)).ReverseMap();
 
             CreateMap<Domain.Entities.Technology, GetByIdTechnologyQuery>().ReverseMap();
+            CreateMap<Domain.Entities.Technology, GetByIdTechnologyDto>().ForMember(c => c.ProgrammingLanguageName, opt => opt.MapFrom(c => c.ProgrammingLanguage.Name)).ReverseMap();
 
-            CreateMap<Domain.Entities.Technology, GetByIdTechnologyDto>()
-                .ForMember(c => c.ProgrammingLanguageName, opt => opt
-                .MapFrom(c => c.ProgrammingLanguage.Name)).ReverseMap();
+            CreateMap<Domain.Entities.Technology, GetListTechnologyDto>().ForMember(c => c.ProgrammingLanguageName, opt => opt.MapFrom(c => c.ProgrammingLanguage.Name)).ReverseMap();
+            CreateMap<IPaginate<Domain.Entities.Technology>, GetListTechnologyModel>().ReverseMap();
+
 
         }
     }

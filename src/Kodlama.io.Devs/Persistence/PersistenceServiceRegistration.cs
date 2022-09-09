@@ -18,6 +18,10 @@ public static class PersistenceServiceRegistration
 
         services.AddScoped<IProgrammingLanguageRepository, ProgrammingLanguageRepository>();
         services.AddScoped<ITechnologyRepository, TechnologyRepository>();
+        services.AddScoped<IDeveloperRepository, DeveloperRepository>();
+        services.AddScoped<ISocialRepository, SocialRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+
         
         return services;
     }
