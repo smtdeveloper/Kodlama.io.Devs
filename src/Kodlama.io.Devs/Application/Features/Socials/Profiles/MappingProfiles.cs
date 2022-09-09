@@ -1,4 +1,6 @@
 ﻿using Application.Features.Socials.Command.CreateSocial;
+using Application.Features.Socials.Command.DeleteSocial;
+using Application.Features.Socials.Command.UpdateSocial;
 using Application.Features.Socials.Dto;
 using Application.Features.Socials.Model;
 using AutoMapper;
@@ -24,13 +26,13 @@ namespace Application.Features.Socials.Profiles
             CreateMap<Social, CreateSocialCommand>().ReverseMap();
             CreateMap<Social, CreateSocialDto>().ReverseMap();
 
-            ////update
-            //CreateMap<Social, UpdateSocialCommand>().ReverseMap();
-            //CreateMap<Social, UpdatedSocialDto>().ReverseMap();
+            //update
+            CreateMap<Social, UpdateSocialCommand>().ReverseMap();
+            CreateMap<Social, UpdatedSocialDto>().ReverseMap();
 
-            ////delete
-            //CreateMap<Social, DeleteSocialCommand>().ReverseMap();
-            //CreateMap<Social, DeletedSocialDto>().ReverseMap();
+            //delete
+            CreateMap<Social, DeleteSocialCommand>().ReverseMap();
+            CreateMap<Social, UpdatedSocialDto>().ReverseMap();
 
         }
     }
