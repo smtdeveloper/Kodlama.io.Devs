@@ -1,4 +1,5 @@
 ﻿using Application.Features.Socials.Dto;
+using Application.Features.Socials.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using MediatR;
@@ -18,11 +19,13 @@ namespace Application.Features.Socials.Command.DeleteSocial
         {
             private readonly IMapper _mapper;
             private readonly ISocialRepository _socialRepository;
+            private readonly SocialBusinessRules _socialBusinessRules;
 
-            public DeleteSocialCommandQuery(IMapper mapper, ISocialRepository socialRepository)
+            public DeleteSocialCommandQuery(IMapper mapper, ISocialRepository socialRepository, SocialBusinessRules socialBusinessRules)
             {
                 _mapper = mapper;
                 _socialRepository = socialRepository;
+                _socialBusinessRules = socialBusinessRules; 
             }
 
             public async Task<UpdatedSocialDto> Handle(DeleteSocialCommand request,
@@ -30,6 +33,7 @@ namespace Application.Features.Socials.Command.DeleteSocial
             {
                 var entity = await _socialRepository.GetAsync(g => g.Id == request.Id);
 
+                _socialBusinessRules.ProgrammingLanguageShouldExistWhen(entity);
 
                 entity = await _socialRepository.DeleteAsync(entity);
 
