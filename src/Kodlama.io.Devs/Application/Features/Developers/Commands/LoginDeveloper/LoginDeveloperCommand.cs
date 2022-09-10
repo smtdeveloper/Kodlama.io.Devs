@@ -1,4 +1,5 @@
 ﻿using Application.Features.Developers.Dto;
+using Application.Features.Developers.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Security.Dtos;
@@ -16,12 +17,14 @@ namespace Application.Features.Developers.Commands.LoginDeveloper
             private readonly IUserRepository _userRepository;
             private readonly IMapper _mapper;
             private readonly ITokenHelper _tokenHelper;
+            private readonly DeveloperBusinessRules _developerBusinessRules;
 
-            public LoginDeveloperHandler(IUserRepository userRepository, IMapper mapper, ITokenHelper tokenHelper)
+            public LoginDeveloperHandler(IUserRepository userRepository, IMapper mapper, ITokenHelper tokenHelper, DeveloperBusinessRules developerBusinessRules)
             {
                 _userRepository = userRepository;
                 _mapper = mapper;
                 _tokenHelper = tokenHelper;
+                _developerBusinessRules = developerBusinessRules;   
             }
 
             public async Task<TokenDto> Handle(LoginDeveloperCommand request, CancellationToken cancellationToken)
@@ -36,7 +39,11 @@ namespace Application.Features.Developers.Commands.LoginDeveloper
                 {
                     operationClaims.Add(userOperationClaim.OperationClaim);
                 }
-                
+
+                _developerBusinessRules.UserShouldExist(user);
+
+                _developerBusinessRules.UserCredentialsShouldMatch(request.Password, user.PasswordHash, user.PasswordSalt);
+
                 AccessToken token = _tokenHelper.CreateToken(user, operationClaims);
 
                 TokenDto tokenDto = _mapper.Map<TokenDto>(token);

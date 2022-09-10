@@ -1,4 +1,5 @@
 ﻿using Application.Features.Developers.Dto;
+using Application.Features.Developers.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Security.Dtos;
@@ -23,18 +24,19 @@ namespace Application.Features.Developers.Commands.CreateDeveloper
             private readonly IDeveloperRepository _developerRepository;
             private readonly IMapper _mapper;
             private readonly ITokenHelper _tokenHelper;
+            private readonly DeveloperBusinessRules _developerBusinessRules;
 
-            public CreateUserCommandHandler(IDeveloperRepository developerRepository, IMapper mapper, ITokenHelper tokenHelper)
+            public CreateUserCommandHandler(IDeveloperRepository developerRepository, IMapper mapper, ITokenHelper tokenHelper, DeveloperBusinessRules developerBusinessRules)
             {
                 _developerRepository = developerRepository;
                 _mapper = mapper;
                 _tokenHelper = tokenHelper;
-
+                _developerBusinessRules = developerBusinessRules;
             }
 
             public async Task<TokenDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
             {
-               
+                await _developerBusinessRules.EmailCanNotBeDuplicatedWhenInserted(request.Email);
 
                 byte[] passwordHash, passwordSalt;
                 HashingHelper.CreatePasswordHash(request.Password, out passwordHash, out passwordSalt);
