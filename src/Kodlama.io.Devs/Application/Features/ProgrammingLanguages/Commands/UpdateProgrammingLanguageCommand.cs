@@ -1,5 +1,6 @@
 ﻿using Application.Features.ProgrammingLanguage.Dto;
 using Application.Features.ProgrammingLanguage.Rules;
+using Application.Features.ProgrammingLanguages.Dto;
 using Application.Services.Repositories;
 using AutoMapper;
 using MediatR;
@@ -11,25 +12,25 @@ using System.Threading.Tasks;
 
 namespace Application.Features.ProgrammingLanguages.Commands
 {
-    public class UpdateProgrammingLanguageCommand : IRequest<CreateProgrammingLanguageDto>
+    public class UpdateProgrammingLanguageCommand : IRequest<UpdateProgrammingLanguageDto>
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public class CreateProgrammingLanguageCommandHandler : IRequestHandler<UpdateProgrammingLanguageCommand, CreateProgrammingLanguageDto>
+        public class UpdateProgrammingLanguageCommandHandler : IRequestHandler<UpdateProgrammingLanguageCommand, UpdateProgrammingLanguageDto>
         {
             private readonly IProgrammingLanguageRepository _programmingLanguageRepository;
             private readonly IMapper _mapper;
             private readonly ProgrammingLanguageBusinessRules _programmingLanguageBusinessRules;
 
-            public CreateProgrammingLanguageCommandHandler(IProgrammingLanguageRepository programmingLanguageRepository, IMapper mapper, ProgrammingLanguageBusinessRules programmingLanguageBusinessRules)
+            public UpdateProgrammingLanguageCommandHandler(IProgrammingLanguageRepository programmingLanguageRepository, IMapper mapper, ProgrammingLanguageBusinessRules programmingLanguageBusinessRules)
             {
                 _programmingLanguageRepository = programmingLanguageRepository;
                 _mapper = mapper;
                 _programmingLanguageBusinessRules = programmingLanguageBusinessRules;
             }
-
-            public async Task<CreateProgrammingLanguageDto> Handle(UpdateProgrammingLanguageCommand request, CancellationToken cancellationToken)
+            
+            public async Task<UpdateProgrammingLanguageDto> Handle(UpdateProgrammingLanguageCommand request, CancellationToken cancellationToken)
             {
 
                 await _programmingLanguageBusinessRules.ProgrammingLanguageShouldBeExist(request.Id);
@@ -41,7 +42,7 @@ namespace Application.Features.ProgrammingLanguages.Commands
                 programmingLanguage.Name = request.Name;
 
                 var updatedProgrammingLanguage = await _programmingLanguageRepository.UpdateAsync(programmingLanguage);
-                var mappedProgrammingLanguageDto = _mapper.Map<CreateProgrammingLanguageDto>(updatedProgrammingLanguage);
+                var mappedProgrammingLanguageDto = _mapper.Map<UpdateProgrammingLanguageDto>(updatedProgrammingLanguage);
 
                 return mappedProgrammingLanguageDto;
             }
