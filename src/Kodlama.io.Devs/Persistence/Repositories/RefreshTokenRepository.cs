@@ -5,11 +5,10 @@ using Persistence.Contexts;
 
 namespace Persistence.Repositories
 {
-    public class UserRepository : EfRepositoryBase<User, BaseDbContext>, IUserRepository
+    public class RefreshTokenRepository : EfRepositoryBase<RefreshToken, BaseDbContext>, IRefreshTokenRepository
     {
-        public UserRepository(BaseDbContext context) : base(context)
+        public RefreshTokenRepository(BaseDbContext context) : base(context)
         {
-
         }
     }
 
