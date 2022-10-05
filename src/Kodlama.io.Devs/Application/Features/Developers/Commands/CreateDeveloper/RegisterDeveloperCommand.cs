@@ -25,44 +25,49 @@ namespace Application.Features.Developers.Commands.CreateDeveloper
         public class CreateUserCommandHandler : IRequestHandler<RegisterDeveloperCommand, RegisteredDto>
         {
             private readonly IDeveloperRepository _developerRepository;
-            private readonly IMapper _mapper;
+            private readonly IUserRepository _userRepository;
             private readonly ITokenHelper _tokenHelper;
-            private readonly DeveloperBusinessRules _developerBusinessRules;
             private readonly IAuthService _authService;
+            private readonly DeveloperBusinessRules _developerBusinessRules;
 
-            public CreateUserCommandHandler(IDeveloperRepository developerRepository, IMapper mapper, ITokenHelper tokenHelper, DeveloperBusinessRules developerBusinessRules, IAuthService authService)
+            public CreateUserCommandHandler(IDeveloperRepository developerRepository, IUserRepository userRepository, ITokenHelper tokenHelper, IAuthService authService, DeveloperBusinessRules developerBusinessRules)
             {
                 _developerRepository = developerRepository;
-                _mapper = mapper;
+                _userRepository = userRepository;
                 _tokenHelper = tokenHelper;
-                _developerBusinessRules = developerBusinessRules;
                 _authService = authService;
+                _developerBusinessRules = developerBusinessRules;
             }
 
             public async Task<RegisteredDto> Handle(RegisterDeveloperCommand request, CancellationToken cancellationToken)
             {
-                await _developerBusinessRules.EmailCanNotBeDuplicatedWhenInserted(request.Email);
+                await _developerBusinessRules.EmailCanNotBeDuplicatedWhenInserted(request.UserForRegisterDto.Email);
 
                 byte[] passwordHash, passwordSalt;
                 HashingHelper.CreatePasswordHash(request.UserForRegisterDto.Password, out passwordHash, out passwordSalt);
 
-                Developer developer = _mapper.Map<Developer>(request.UserForRegisterDto);
-                developer.PasswordHash = passwordHash;
-                developer.PasswordSalt = passwordSalt;
+                Developer newUser = new()
+                {
+                    Email = request.UserForRegisterDto.Email,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
+                    FirstName = request.UserForRegisterDto.FirstName,
+                    LastName = request.UserForRegisterDto.LastName,
+                    Status = true
+                    
+                };
 
-                var createdDeveloper = await _developerRepository.AddAsync(developer);
+                Developer createdUser = await _developerRepository.AddAsync(newUser);
 
-                AccessToken createdAccessToken = await _authService.CreateAccessToken(createdDeveloper);
-                RefreshToken createdRefreshToken =
-                    await _authService.CreateRefreshToken(createdDeveloper, request.IpAddress);
+                AccessToken createdAccessToken = await _authService.CreateAccessToken(createdUser);
+                RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(createdUser, request.IpAddress);
                 RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
 
                 RegisteredDto registeredDto = new()
                 {
+                    RefreshToken = addedRefreshToken,
                     AccessToken = createdAccessToken,
-                    RefreshToken = addedRefreshToken
                 };
-
                 return registeredDto;
 
             }

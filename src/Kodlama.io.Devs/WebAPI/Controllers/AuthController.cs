@@ -12,12 +12,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AuthController : BaseController
     {
-        private readonly IMediator _mediator;
-
-        public AuthController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+       
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserForRegisterDto userForRegisterDto )
@@ -28,7 +23,7 @@ namespace WebAPI.Controllers
                 IpAddress = GetIpAddress()
             };
 
-            var result = await _mediator.Send(registerDeveloperCommand);
+            var result = await Mediator.Send(registerDeveloperCommand);
 
             SetRefreshTokenToCookie(result.RefreshToken);
             return Created("", result.AccessToken);
@@ -48,7 +43,7 @@ namespace WebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDeveloperCommand loginDeveloperCommand)
         {
-            var result = await _mediator.Send(loginDeveloperCommand);
+            var result = await Mediator.Send(loginDeveloperCommand);
 
             return Ok(result);
         }

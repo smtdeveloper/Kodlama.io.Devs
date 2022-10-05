@@ -1,10 +1,12 @@
-﻿using Application.Features.Socials.Command.CreateSocial;
+﻿using Application.Features.Developers.Dto;
+using Application.Features.Socials.Command.CreateSocial;
 using Application.Features.Socials.Command.DeleteSocial;
 using Application.Features.Socials.Command.UpdateSocial;
 using Application.Features.Socials.Dto;
 using Application.Features.Socials.Model;
 using AutoMapper;
 using Core.Persistence.Paging;
+using Core.Security.JWT;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,8 @@ namespace Application.Features.Socials.Profiles
             //create
             CreateMap<Social, CreateSocialCommand>().ReverseMap();
             CreateMap<Social, CreateSocialDto>().ReverseMap();
+
+            CreateMap<TokenDto, AccessToken>().ReverseMap();
 
             //update
             CreateMap<Social, UpdateSocialCommand>().ReverseMap();
