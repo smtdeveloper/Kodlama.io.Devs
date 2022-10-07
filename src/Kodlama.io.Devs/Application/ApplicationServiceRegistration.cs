@@ -1,6 +1,8 @@
 ﻿using Application.Features.Developers.Rules;
+using Application.Features.OperationClaim.Rules;
 using Application.Features.ProgrammingLanguage.Rules;
 using Application.Features.Socials.Rules;
+using Application.Features.UserOperationClaims.Rules;
 using Application.Services.AuthService;
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
@@ -20,6 +22,8 @@ namespace Application
             services.AddScoped<ProgrammingLanguageBusinessRules>();
             services.AddScoped<DeveloperBusinessRules>();
             services.AddScoped<SocialBusinessRules>();
+            services.AddScoped<OperationClaimBusinessRules>();
+            services.AddScoped<UserOperationClaimBusinessRules>();
 
 
 

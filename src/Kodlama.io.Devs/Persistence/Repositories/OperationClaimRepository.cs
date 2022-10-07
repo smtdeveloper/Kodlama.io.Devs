@@ -9,6 +9,7 @@ namespace Persistence.Repositories
     {
         public OperationClaimRepository(BaseDbContext context) : base(context)
         {
+
         }
     }
 

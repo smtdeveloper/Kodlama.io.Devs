@@ -33,7 +33,7 @@ namespace Application.Features.Developers.Commands.LoginDeveloper
                     u => u.Email.ToLower() == request.Email.ToLower(),
                     include: m => m.Include(c => c.UserOperationClaims).ThenInclude(x => x.OperationClaim));
                 
-                List<OperationClaim> operationClaims = new List<OperationClaim>() { };
+                List<Core.Security.Entities.OperationClaim> operationClaims = new List<Core.Security.Entities.OperationClaim>() { };
 
                 foreach (var userOperationClaim in user.UserOperationClaims)
                 {

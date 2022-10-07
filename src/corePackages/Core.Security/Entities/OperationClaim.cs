@@ -1,6 +1,6 @@
 ﻿using Core.Persistence.Repositories;
 
-namespace Core.Security.Entities;
+namespace Core.Security.Entities {  
 
 public class OperationClaim : Entity
 {
@@ -14,4 +14,6 @@ public class OperationClaim : Entity
     {
         Name = name;
     }
+}
+
 }
