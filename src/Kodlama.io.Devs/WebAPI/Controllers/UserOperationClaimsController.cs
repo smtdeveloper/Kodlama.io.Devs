@@ -3,7 +3,6 @@ using Application.Features.UserOperationClaims.Commands.DeleteUserOperationClaim
 using Application.Features.UserOperationClaims.Queries;
 using Core.Application.Requests;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;

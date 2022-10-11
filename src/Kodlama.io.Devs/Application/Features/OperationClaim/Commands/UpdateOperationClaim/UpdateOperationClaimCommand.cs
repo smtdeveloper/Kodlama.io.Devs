@@ -11,38 +11,40 @@ using System.Threading.Tasks;
 
 namespace Application.Features.OperationClaim.Commands.UpdateOperationClaim
 {
-        public class UpdateOperationClaimCommand : IRequest<UpdatedOperationClaimDto>, ISecuredRequest
+    public class UpdateOperationClaimCommand : IRequest<UpdatedOperationClaimDto>, ISecuredRequest
+    {
+        public string Role { get; set; }
+        public string[] Roles { get; } = { "Admin" }; 
+
+
+        public Core.Security.Entities.OperationClaim OperationClaim { get; set; }
+
+        public class UpdateOperationClaimCommandHandler : IRequestHandler<UpdateOperationClaimCommand, UpdatedOperationClaimDto>
         {
-            public string[] Roles { get; } = { "Admin" };
+            private readonly IOperationClaimRepository _operationClaimRepository;
+            private readonly OperationClaimBusinessRules _operationClaimBusinessRules;
 
-            public Core.Security.Entities.OperationClaim OperationClaim { get; set; }
+            public UpdateOperationClaimCommandHandler(IOperationClaimRepository operationClaimRepository,
+                OperationClaimBusinessRules operationClaimBusinessRules)
+                => (_operationClaimRepository, _operationClaimBusinessRules) =
+                    (operationClaimRepository, operationClaimBusinessRules);
 
-            public class UpdateOperationClaimCommandHandler : IRequestHandler<UpdateOperationClaimCommand, UpdatedOperationClaimDto>
+            public async Task<UpdatedOperationClaimDto> Handle(UpdateOperationClaimCommand request,
+                CancellationToken cancellationToken)
             {
-                private readonly IOperationClaimRepository _operationClaimRepository;
-                private readonly OperationClaimBusinessRules _operationClaimBusinessRules;
+                var operationClaim = await _operationClaimRepository.GetAsync(o => o.Id == request.OperationClaim.Id);
+                _operationClaimBusinessRules.OperationClaimShouldExistToUpdate(operationClaim);
+                operationClaim.Name = request.OperationClaim.Name.ToLower();
+                var updatedOperationClaim = await _operationClaimRepository.UpdateAsync(operationClaim);
 
-                public UpdateOperationClaimCommandHandler(IOperationClaimRepository operationClaimRepository,
-                    OperationClaimBusinessRules operationClaimBusinessRules)
-                    => (_operationClaimRepository, _operationClaimBusinessRules) =
-                        (operationClaimRepository, operationClaimBusinessRules);
-
-                public async Task<UpdatedOperationClaimDto> Handle(UpdateOperationClaimCommand request,
-                    CancellationToken cancellationToken)
+                var updatedOperationClaimDto = new UpdatedOperationClaimDto()
                 {
-                    var operationClaim = await _operationClaimRepository.GetAsync(o => o.Id == request.OperationClaim.Id);
-                    _operationClaimBusinessRules.OperationClaimShouldExistToUpdate(operationClaim);
-                    operationClaim.Name = request.OperationClaim.Name.ToLower();
-                    var updatedOperationClaim = await _operationClaimRepository.UpdateAsync(operationClaim);
+                    Id = updatedOperationClaim.Id,
+                    Name = updatedOperationClaim.Name
+                };
 
-                    var updatedOperationClaimDto = new UpdatedOperationClaimDto()
-                    {
-                        Id = updatedOperationClaim.Id,
-                        Name = updatedOperationClaim.Name
-                    };
-
-                    return updatedOperationClaimDto;
-                }
+                return updatedOperationClaimDto;
             }
         }
     }
+}
