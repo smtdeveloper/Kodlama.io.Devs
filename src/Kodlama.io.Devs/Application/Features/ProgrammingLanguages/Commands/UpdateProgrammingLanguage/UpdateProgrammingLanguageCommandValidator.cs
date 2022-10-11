@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.ProgrammingLanguages.Commands
+namespace Application.Features.ProgrammingLanguages.Commands.UpdateProgrammingLanguage
 {
-    public class UpdateProgrammingLanguageCommandValidator  : AbstractValidator<UpdateProgrammingLanguageCommand>
+    public class UpdateProgrammingLanguageCommandValidator : AbstractValidator<UpdateProgrammingLanguageCommand>
     {
         public UpdateProgrammingLanguageCommandValidator()
         {

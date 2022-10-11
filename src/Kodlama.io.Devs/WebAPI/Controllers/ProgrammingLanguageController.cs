@@ -1,6 +1,7 @@
-using Application.Features.ProgrammingLanguage.Commands;
 using Application.Features.ProgrammingLanguage.Dto;
-using Application.Features.ProgrammingLanguages.Commands;
+using Application.Features.ProgrammingLanguages.Commands.CreateProgrammingLanguage;
+using Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLanguage;
+using Application.Features.ProgrammingLanguages.Commands.UpdateProgrammingLanguage;
 using Application.Features.ProgrammingLanguages.Models;
 using Application.Features.ProgrammingLanguages.Queries;
 using Core.Application.Requests;

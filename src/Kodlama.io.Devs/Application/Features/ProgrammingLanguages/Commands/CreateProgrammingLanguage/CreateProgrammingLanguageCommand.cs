@@ -2,6 +2,7 @@
 using Application.Features.ProgrammingLanguage.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -10,11 +11,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.ProgrammingLanguage.Commands
+namespace Application.Features.ProgrammingLanguages.Commands.CreateProgrammingLanguage
 {
-    public class CreateProgrammingLanguageCommand : IRequest<CreateProgrammingLanguageDto>
+    public class CreateProgrammingLanguageCommand : IRequest<CreateProgrammingLanguageDto>, ISecuredRequest
     {
         public string Name { get; set; }
+
+        public string[] Roles { get; } = { "Admin" , "ProgrammingLanguageAdd" };
+
         public class CreateProgrammingLanguageCommandHandler : IRequestHandler<CreateProgrammingLanguageCommand, CreateProgrammingLanguageDto>
         {
             private readonly IProgrammingLanguageRepository _programmingLanguageRepository;
