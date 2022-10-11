@@ -15,7 +15,7 @@ namespace Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLa
     {
         public int Id { get; set; }
 
-        public string[] Roles { get} = {"Admin" , "ProgrammingLanguageDelete" };
+        public string[] Roles { get; } = {"Admin" , "ProgrammingLanguageDelete" };
 
         public class DeleteProgrammingLanguageCommandHandler : IRequestHandler<DeleteProgrammingLanguageCommand, DeleteProgrammingLanguageDto>
         {

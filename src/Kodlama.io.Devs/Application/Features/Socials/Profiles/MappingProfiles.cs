@@ -20,9 +20,10 @@ namespace Application.Features.Socials.Profiles
     {
         public MappingProfiles()
         {
-            //getlist
+            //getlist & getbyid
             CreateMap<GithubProfileListModel, IPaginate<Social>>().ReverseMap();
-            CreateMap<Social, SocialListDto>().ReverseMap();
+            CreateMap<GithubProfileListModel, Social>().ReverseMap();
+            CreateMap<SocialListDto ,Social >().ReverseMap();
             
             //create
             CreateMap<Social, CreateSocialCommand>().ReverseMap();

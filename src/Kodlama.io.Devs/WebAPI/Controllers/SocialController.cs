@@ -20,12 +20,20 @@ namespace WebAPI.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("GetList")]
         public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
         {
             GetListSocialsQuery socialsQuery = new() { PageRequest = pageRequest };
             var result = await _mediator.Send(socialsQuery);
             return Ok(result);
+        }
+
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById([FromQuery] GetByIdSocialQuery getByIdSocialQuery)
+        {
+            var result = await _mediator.Send(getByIdSocialQuery);
+            return Ok(result);
+
         }
 
         [HttpPost]
